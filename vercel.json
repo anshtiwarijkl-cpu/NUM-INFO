@@ -8,9 +8,21 @@
   ],
   "routes": [
     {
+      "src": "/vehicle/(.*)",
+      "dest": "app.py"
+    },
+    {
+      "src": "/bulk",
+      "dest": "app.py",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/health",
+      "dest": "app.py"
+    },
+    {
       "src": "/(.*)",
       "dest": "app.py"
     }
-  ],
-  "buildCommand": "pip install -r requirements.txt"
+  ]
 }
