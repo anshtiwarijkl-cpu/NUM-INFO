@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python@4.0.0"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/vehicle/(.*)",
+      "dest": "app.py"
+    },
+    {
+      "src": "/bulk",
+      "dest": "app.py",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/health",
+      "dest": "app.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ]
+}
