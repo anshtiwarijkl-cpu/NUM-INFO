@@ -2,14 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.py",
+      "src": "app.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "index.py"
+      "dest": "app.py",
+      "methods": ["GET", "POST", "OPTIONS"]
     }
-  ]
+  ],
+  "env": {
+    "PORT": "2002"
+  }
 }
