@@ -1,4 +1,3 @@
-# index.py
 from http.server import BaseHTTPRequestHandler
 import requests
 import json
@@ -16,29 +15,35 @@ def filter_response(data):
         return filtered
     return data
 
-class handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        parsed = urlparse(self.path)
-        parts = parsed.path.strip("/").split("/")
+# Vercel serverless function entry point
+def handler(request):
+    path = request.path
+    parsed = urlparse(path)
+    parts = parsed.path.strip("/").split("/")
 
-        if len(parts) == 2 and parts[0] == "userid":
-            query = parts[1]
-            try:
-                r = requests.get(MAIN_API.format(q=query), timeout=10)
-                data = r.json()
-                filtered = filter_response(data)
-                body = json.dumps(filtered, indent=2).encode()
-                self.send_response(200)
-                self.send_header("Content-Type", "application/json")
-            except Exception as e:
-                body = json.dumps({"error": str(e)}).encode()
-                self.send_response(500)
-                self.send_header("Content-Type", "application/json")
-        else:
-            body = json.dumps({"status": "RootX Proxy", "usage": "/userid/<telegram_id>"}).encode()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
+    if len(parts) == 2 and parts[0] == "userid":
+        query = parts[1]
+        try:
+            r = requests.get(MAIN_API.format(q=query), timeout=10)
+            data = r.json()
+            filtered = filter_response(data)
+            body = json.dumps(filtered, indent=2)
+            return {
+                "statusCode": 200,
+                "headers": {"Content-Type": "application/json"},
+                "body": body
+            }
+        except Exception as e:
+            body = json.dumps({"error": str(e)})
+            return {
+                "statusCode": 500,
+                "headers": {"Content-Type": "application/json"},
+                "body": body
+            }
+    else:
+        body = json.dumps({"status": "RootX Proxy", "usage": "/userid/<telegram_id>"})
+        return {
+            "statusCode": 200,
+            "headers": {"Content-Type": "application/json"},
+            "body": body
+        }
