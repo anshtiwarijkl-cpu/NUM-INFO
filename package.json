@@ -1,0 +1,24 @@
+{
+  "name": "vahan-mobile-lookup",
+  "version": "1.0.0",
+  "description": "Vehicle number to mobile number lookup service using Parivahan API",
+  "main": "app.py",
+  "scripts": {
+    "start": "python app.py",
+    "dev": "python app.py",
+    "test": "pytest"
+  },
+  "dependencies": {
+    "python": ">=3.9"
+  },
+  "keywords": [
+    "vahan",
+    "parivahan",
+    "vehicle",
+    "chassis",
+    "mobile",
+    "lookup"
+  ],
+  "author": "",
+  "license": "MIT"
+}
